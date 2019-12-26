@@ -1,16 +1,7 @@
 use std::collections::VecDeque;
 
 /// 发牌堆
-///
-/// 输入value     输入index
-/// | 1 |          0 牌堆顶部
-/// \ 2 |          1
-/// \ 3 |          2
-/// \ 4 |          3
-/// \ 5 |          4
-/// \ 6 |          5
-/// \ 7 |          6
-/// \ 8 |          7 底部
+/// 输入slice索引越小则在牌堆中的位置越高
 fn sort_dispatch(arr: &[u32]) -> Vec<u32> {
     let mut res = Vec::new();
     let mut queue: VecDeque<_> = arr.iter().map(|elem| *elem).collect();
@@ -34,38 +25,21 @@ fn sort_dispatch(arr: &[u32]) -> Vec<u32> {
 
 
 /// 恢复牌堆
-///
-/// 输入value     输入index
-/// | 8 |          0 牌堆顶部
-/// \ 4 |          1
-/// \ 6 |          2
-/// \ 2 |          3
-/// \ 7 |          4
-/// \ 5 |          5
-/// \ 3 |          6
-/// \ 1 |          7 底部
+/// 输入slice索引越小则在牌堆中的位置越高
 fn recover_order(arr: &[u32]) -> Vec<u32> {
-    let mut temp = arr.to_vec();
-    temp.reverse();
+    let temp = arr.to_vec();
     let mut queue = VecDeque::new();
-    loop {
-        if temp.len() > 0 {
-            // 双端队列，取出最后一个牌放到最前面，恢复将最上层牌放到底层的操作
-            if queue.len() > 0 {
-                let bottom: u32 = queue.pop_back().unwrap();
-                queue.push_front(bottom);
-                let val = temp.pop().unwrap();
-                queue.push_front(val);
-            } else {
-                let val = temp.pop().unwrap();
-                queue.push_front(val);
-            }
+    for val in temp {
+        if queue.len() > 0 {
+            let bottom: u32 = queue.pop_back().unwrap();
+            queue.push_front(bottom);
+            queue.push_front(val);
         } else {
-            break;
+            queue.push_front(val);
         }
     }
 
-    queue.iter().map(|val|*val).collect::<Vec<_>>()
+    queue.iter().map(|val| *val).collect::<Vec<_>>()
 }
 
 fn main() {
