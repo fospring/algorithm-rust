@@ -1,11 +1,9 @@
-#![feature(toowned_clone_into)]
-
 use std::collections::VecDeque;
 
 /// 发牌堆
 ///
 /// 输入value     输入index
-/// | 1 |          0 顶部
+/// | 1 |          0 牌堆顶部
 /// \ 2 |          1
 /// \ 3 |          2
 /// \ 4 |          3
@@ -15,6 +13,11 @@ use std::collections::VecDeque;
 /// \ 8 |          7 底部
 fn sort_dispatch(arr: &[u32]) -> Vec<u32> {
     let mut res = Vec::new();
+//    let mut queue = VecDeque::new();
+//    for elem in arr {
+//        queue.push_back(*elem);
+//    }
+    /// 优化成迭代器使用链式调用方式
     let mut queue: VecDeque<_> = arr.iter().map(|elem| *elem).collect();
     loop {
         if queue.len() > 1 {
@@ -37,7 +40,7 @@ fn sort_dispatch(arr: &[u32]) -> Vec<u32> {
 /// 恢复牌堆
 ///
 /// 输入value     输入index
-/// | 8 |          0 顶部
+/// | 8 |          0 牌堆顶部
 /// \ 4 |          1
 /// \ 6 |          2
 /// \ 2 |          3
@@ -46,8 +49,11 @@ fn sort_dispatch(arr: &[u32]) -> Vec<u32> {
 /// \ 3 |          6
 /// \ 1 |          7 底部
 fn recover_order(arr: &[u32]) -> Vec<u32> {
-    let mut temp = Vec::with_capacity(arr.len());
-    arr.clone_into(temp.as_mut());
+//    let mut temp = Vec::with_capacity(arr.len());
+//    arr.clone_into(temp.as_mut());
+//    temp.reverse();
+    /// 优化使用库中封装的方法生成新的Vector
+    let mut temp = arr.to_vec();
     temp.reverse();
     let mut res = Vec::new();
     let mut queue = VecDeque::new();
