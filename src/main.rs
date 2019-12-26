@@ -3,12 +3,19 @@
 use std::collections::VecDeque;
 
 /// 发牌堆
+///
+/// 输入value     输入index
+/// | 1 |          0 顶部
+/// \ 2 |          1
+/// \ 3 |          2
+/// \ 4 |          3
+/// \ 5 |          4
+/// \ 6 |          5
+/// \ 7 |          6
+/// \ 8 |          7 底部
 fn sort_dispatch(arr: &[u32]) -> Vec<u32> {
     let mut res = Vec::new();
-    let mut queue = VecDeque::new();
-    for elem in arr {
-        queue.push_back(*elem);
-    }
+    let mut queue: VecDeque<_> = arr.iter().map(|elem| *elem).collect();
     loop {
         if queue.len() > 1 {
             let val = queue.pop_front().unwrap();
@@ -28,6 +35,16 @@ fn sort_dispatch(arr: &[u32]) -> Vec<u32> {
 }
 
 /// 恢复牌堆
+///
+/// 输入value     输入index
+/// | 8 |          0 顶部
+/// \ 4 |          1
+/// \ 6 |          2
+/// \ 2 |          3
+/// \ 7 |          4
+/// \ 5 |          5
+/// \ 3 |          6
+/// \ 1 |          7 底部
 fn recover_order(arr: &[u32]) -> Vec<u32> {
     let mut temp = Vec::with_capacity(arr.len());
     arr.clone_into(temp.as_mut());
