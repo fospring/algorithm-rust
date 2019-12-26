@@ -52,8 +52,8 @@ fn recover_order(arr: &[u32]) -> Vec<u32> {
         if temp.len() > 0 {
             // 双端队列，取出最后一个牌放到最前面，恢复将最上层牌放到底层的操作
             if queue.len() > 0 {
-                let botton: u32 = queue.pop_back().unwrap();
-                queue.push_front(botton);
+                let bottom: u32 = queue.pop_back().unwrap();
+                queue.push_front(bottom);
                 let val = temp.pop().unwrap();
                 queue.push_front(val);
             } else {
